@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning Taxonomy - PDF Version</title>
+    <style>
+        @page {
+            size: A3 landscape;
+            margin: 15mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background: white;
+            padding: 20px;
+            color: #000;
+        }
+        
+        .pdf-container {
+            width: 100%;
+            max-width: 420mm;
+            margin: 0 auto;
+            background: white;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 4px solid #667eea;
+        }
+        
+        h1 {
+            font-size: 48px;
+            color: #1a202c;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: #f7fafc;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .legend-color {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+        
+        .root-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .root-node {
+            display: inline-block;
+            padding: 18px 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 32px;
+            font-weight: 900;
+            border-radius: 12px;
+            border: 3px solid #5568d3;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .category-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border: 3px solid #e2e8f0;
+        }
+        
+        .category-header {
+            text-align: center;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .supervised { background: linear-gradient(135deg, #f093fb, #f5576c); border: 3px solid #e04868; }
+        .unsupervised { background: linear-gradient(135deg, #f093fb, #f5576c); border: 3px solid #e04868; }
+        .deep-learning { background: linear-gradient(135deg, #f093fb, #f5576c); border: 3px solid #e04868; }
+        .reinforcement { background: linear-gradient(135deg, #f093fb, #f5576c); border: 3px solid #e04868; }
+        .generative { background: linear-gradient(135deg, #f093fb, #f5576c); border: 3px solid #e04868; }
+        .self-supervised { background: linear-gradient(135deg, #f093fb, #f5576c); border: 3px solid #e04868; }
+        
+        .sub-section {
+            margin-bottom: 15px;
+        }
+        
+        .sub-header {
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            text-align: center;
+            border: 2px solid #3b9ced;
+        }
+        
+        .dl-header {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+            color: #1a202c;
+            border: 2px solid #f9618d;
+        }
+        
+        .adv-header {
+            background: linear-gradient(135deg, #30cfd0, #330867);
+            color: white;
+            border: 2px solid #2bbfc0;
+        }
+        
+        .algorithms {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+        
+        .algorithms.wide {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .algorithm {
+            padding: 6px 10px;
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            border: 2px solid #3dd670;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            color: #1a202c;
+        }
+        
+        .tips-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            border-radius: 12px;
+            border: 3px solid #fca586;
+        }
+        
+        .tips-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #742a2a;
+            text-align: center;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .tip-box {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #f9a586;
+        }
+        
+        .tip-title {
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .tip-text {
+            color: #4a5568;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 3px solid #e2e8f0;
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, #5568d3, #6a4091);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .instructions {
+            text-align: center;
+            background: #fffbeb;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #fbbf24;
+            margin-bottom: 20px;
+        }
+        
+        .instructions strong {
+            color: #92400e;
+            font-size: 16px;
+        }
+        
+        @media print {
+            .download-btn, .instructions {
+                display: none;
+            }
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pdf-container">
+        <div class="instructions">
+            <strong>📥 To Save as PDF:</strong> Press <kbd>Ctrl+P</kbd> (Windows) or <kbd>Cmd+P</kbd> (Mac), then select "Save as PDF" and choose "Landscape" orientation
+        </div>
+        
+        <button class="download-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+        
+        <div class="header">
+            <h1>🤖 MACHINE LEARNING TAXONOMY</h1>
+            <p class="subtitle">Complete Guide to ML Algorithms & Techniques - Interview Reference</p>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #667eea, #764ba2);"></div>
+                    <span>Root</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #f093fb, #f5576c);"></div>
+                    <span>Main Category</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #4facfe, #00f2fe);"></div>
+                    <span>Sub-category</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #43e97b, #38f9d7);"></div>
+                    <span>Algorithms</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #fa709a, #fee140);"></div>
+                    <span>Deep Learning</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #30cfd0, #330867);"></div>
+                    <span>Advanced</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="root-section">
+            <div class="root-node">MACHINE LEARNING</div>
+        </div>
+        
+        <!-- ROW 1 -->
+        <div class="main-grid">
+            <!-- SUPERVISED LEARNING -->
+            <div class="category-box">
+                <div class="category-header supervised">Supervised Learning</div>
+                
+                <div class="sub-section">
+                    <div class="sub-header">Regression</div>
+                    <div class="algorithms">
+                        <div class="algorithm">Linear Regression</div>
+                        <div class="algorithm">Ridge/Lasso</div>
+                        <div class="algorithm">ElasticNet</div>
+                        <div class="algorithm">SVR</div>
+                        <div class="algorithm">Decision Tree</div>
+                        <div class="algorithm">Random Forest</div>
+                        <div class="algorithm">XGBoost</div>
+                        <div class="algorithm">LightGBM</div>
+                        <div class="algorithm">CatBoost</div>
+                        <div class="algorithm">Gradient Boost</div>
+                        <div class="algorithm">Neural Networks</div>
+                    </div>
+                </div>
+                
+                <div class="sub-section">
+                    <div class="sub-header">Classification</div>
+                    <div class="algorithms">
+                        <div class="algorithm">Logistic Regression</div>
+                        <div class="algorithm">Decision Trees</div>
+                        <div class="algorithm">Random Forest</div>
+                        <div class="algorithm">SVM</div>
+                        <div class="algorithm">KNN</div>
+                        <div class="algorithm">Naive Bayes</div>
+                        <div class="algorithm">AdaBoost</div>
+                        <div class="algorithm">XGBoost</div>
+                        <div class="algorithm">LightGBM</div>
+                        <div class="algorithm">CatBoost</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- UNSUPERVISED LEARNING -->
+            <div class="category-box">
+                <div class="category-header unsupervised">Unsupervised Learning</div>
+                
+                <div class="sub-section">
+                    <div class="sub-header">Clustering</div>
+                    <div class="algorithms">
+                        <div class="algorithm">K-Means</div>
+                        <div class="algorithm">Hierarchical</div>
+                        <div class="algorithm">DBSCAN</div>
+                        <div class="algorithm">OPTICS</div>
+                        <div class="algorithm">Agglomerative</div>
+                        <div class="algorithm">Gaussian Mixture</div>
+                        <div class="algorithm">Mean Shift</div>
+                        <div class="algorithm">Spectral</div>
+                        <div class="algorithm">BIRCH</div>
+                    </div>
+                </div>
+                
+                <div class="sub-section">
+                    <div class="sub-header">Dimensionality Reduction</div>
+                    <div class="algorithms">
+                        <div class="algorithm">PCA</div>
+                        <div class="algorithm">t-SNE</div>
+                        <div class="algorithm">UMAP</div>
+                        <div class="algorithm">LDA</div>
+                        <div class="algorithm">Autoencoders</div>
+                        <div class="algorithm">Factor Analysis</div>
+                        <div class="algorithm">ICA</div>
+                        <div class="algorithm">Kernel PCA</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DEEP LEARNING -->
+            <div class="category-box">
+                <div class="category-header deep-learning">Deep Learning</div>
+                
+                <div class="sub-section">
+                    <div class="dl-header">Feedforward (MLP)</div>
+                    <div class="algorithms">
+                        <div class="algorithm">Fully Connected</div>
+                        <div class="algorithm">Perceptron</div>
+                        <div class="algorithm">ReLU</div>
+                        <div class="algorithm">Dropout</div>
+                        <div class="algorithm">Batch Norm</div>
+                        <div class="algorithm">Layer Norm</div>
+                    </div>
+                </div>
+                
+                <div class="sub-section">
+                    <div class="dl-header">CNN</div>
+                    <div class="algorithms">
+                        <div class="algorithm">ResNet</div>
+                        <div class="algorithm">VGG</div>
+                        <div class="algorithm">Inception</div>
+                        <div class="algorithm">EfficientNet</div>
+                        <div class="algorithm">MobileNet</div>
+                        <div class="algorithm">YOLO</div>
+                        <div class="algorithm">Faster R-CNN</div>
+                        <div class="algorithm">U-Net</div>
+                        <div class="algorithm">ViT</div>
+                    </div>
+                </div>
+                
+                <div class="sub-section">
+                    <div class="dl-header">RNN</div>
+                    <div class="algorithms">
+                        <div class="algorithm">LSTM</div>
+                        <div class="algorithm">GRU</div>
+                        <div class="algorithm">Bi-LSTM</div>
+                        <div class="algorithm">Seq2Seq</div>
+                        <div class="algorithm">Attention</div>
+                        <div class="algorithm">Encoder-Decoder</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ROW 2 -->
+        <div class="main-grid">
+            <!-- TRANSFORMERS -->
+            <div class="category-box">
+                <div class="category-header deep-learning">Transformers & LLMs</div>
+                
+                <div class="sub-section">
+                    <div class="dl-header">Transformer Models</div>
+                    <div class="algorithms wide">
+                        <div class="algorithm">BERT</div>
+                        <div class="algorithm">RoBERTa</div>
+                        <div class="algorithm">DistilBERT</div>
+                        <div class="algorithm">GPT-2</div>
+                        <div class="algorithm">GPT-3</div>
+                        <div class="algorithm">GPT-4</div>
+                        <div class="algorithm">Llama 2/3</div>
+                        <div class="algorithm">T5</div>
+                        <div class="algorithm">BART</div>
+                        <div class="algorithm">mT5</div>
+                        <div class="algorithm">FLAN-T5</div>
+                        <div class="algorithm">Claude</div>
+                        <div class="algorithm">Gemini</div>
+                        <div class="algorithm">Mistral</div>
+                        <div class="algorithm">Mixtral</div>
+                        <div class="algorithm">Phi-3</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- REINFORCEMENT LEARNING -->
+            <div class="category-box">
+                <div class="category-header reinforcement">Reinforcement Learning</div>
+                
+                <div class="sub-section">
+                    <div class="adv-header">RL Algorithms</div>
+                    <div class="algorithms">
+                        <div class="algorithm">Q-Learning</div>
+                        <div class="algorithm">SARSA</div>
+                        <div class="algorithm">DQN</div>
+                        <div class="algorithm">Double DQN</div>
+                        <div class="algorithm">Policy Gradient</div>
+                        <div class="algorithm">A2C</div>
+                        <div class="algorithm">PPO</div>
+                        <div class="algorithm">Actor-Critic</div>
+                        <div class="algorithm">DDPG</div>
+                        <div class="algorithm">TD3</div>
+                        <div class="algorithm">AlphaGo</div>
+                        <div class="algorithm">AlphaZero</div>
+                        <div class="algorithm">RLHF</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GENERATIVE AI -->
+            <div class="category-box">
+                <div class="category-header generative">Generative AI</div>
+                
+                <div class="sub-section">
+                    <div class="adv-header">Generative Models</div>
+                    <div class="algorithms">
+                        <div class="algorithm">GANs</div>
+                        <div class="algorithm">DCGAN</div>
+                        <div class="algorithm">StyleGAN</div>
+                        <div class="algorithm">BigGAN</div>
+                        <div class="algorithm">VAE</div>
+                        <div class="algorithm">Normalizing Flows</div>
+                        <div class="algorithm">PixelRNN</div>
+                        <div class="algorithm">WaveNet</div>
+                        <div class="algorithm">Diffusion Models</div>
+                        <div class="algorithm">Stable Diffusion</div>
+                        <div class="algorithm">DALL-E 2/3</div>
+                        <div class="algorithm">Midjourney</div>
+                    </div>
+                </div>
+                
+                <div class="sub-section">
+                    <div class="adv-header">Hybrid & Specialized</div>
+                    <div class="algorithms">
+                        <div class="algorithm">RAG</div>
+                        <div class="algorithm">MoE</div>
+                        <div class="algorithm">GNN</div>
+                        <div class="algorithm">GAT</div>
+                        <div class="algorithm">GraphSAGE</div>
+                        <div class="algorithm">NeRF</div>
+                        <div class="algorithm">Gaussian Splatting</div>
+                        <div class="algorithm">Energy-Based</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SELF-SUPERVISED -->
+        <div class="main-grid" style="grid-template-columns: 1fr;">
+            <div class="category-box">
+                <div class="category-header self-supervised">Self-Supervised & Semi-Supervised Learning</div>
+                
+                <div class="sub-section">
+                    <div class="adv-header">Learning Paradigms</div>
+                    <div class="algorithms wide">
+                        <div class="algorithm">Contrastive Learning</div>
+                        <div class="algorithm">SimCLR</div>
+                        <div class="algorithm">BYOL</div>
+                        <div class="algorithm">SimSiam</div>
+                        <div class="algorithm">DINO</div>
+                        <div class="algorithm">Masked Language Modeling</div>
+                        <div class="algorithm">Momentum Contrast</div>
+                        <div class="algorithm">SwAV</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- INTERVIEW TIPS -->
+        <div class="tips-section">
+            <div class="tips-title">📚 Key Interview Focus Areas</div>
+            <div class="tips-grid">
+                <div class="tip-box">
+                    <div class="tip-title">🎯 For This Role</div>
+                    <div class="tip-text">Focus on PySpark (transformations, actions, optimization), PyTorch, GenAI (Transformers, RAG), production ML deployment, cloud platforms (AWS/Azure/GCP).</div>
+                </div>
+                
+                <div class="tip-box">
+                    <div class="tip-title">⚡ PySpark Essentials</div>
+                    <div class="tip-text">RDD/DataFrame APIs, Lazy Evaluation, Partitioning, Broadcasting, Caching, Performance Optimization, Handling Skewed Data.</div>
+                </div>
+                
+                <div class="tip-box">
+                    <div class="tip-title">🤖 GenAI Core</div>
+                    <div class="tip-text">LLMs (GPT, BERT, Llama), Fine-tuning vs Prompt Engineering, RAG architecture, Vector Databases, Embeddings, Hallucination handling.</div>
+                </div>
+                
+                <div class="tip-box">
+                    <div class="tip-title">🔧 Production ML</div>
+                    <div class="tip-text">Model deployment, versioning (MLflow), monitoring, A/B testing, CI/CD pipelines, Docker/Kubernetes, model drift detection.</div>
+                </div>
+                
+                <div class="tip-box">
+                    <div class="tip-title">☁️ Cloud ML Platforms</div>
+                    <div class="tip-text">AWS SageMaker, Azure ML, GCP Vertex AI, distributed training, auto-scaling, cost optimization, MLOps best practices.</div>
+                </div>
+                
+                <div class="tip-box">
+                    <div class="tip-title">📊 SAS Migration</div>
+                    <div class="tip-text">SAS procedures → Python/PySpark equivalents (PROC SQL → Spark SQL), data validation, performance comparison, legacy modernization.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <strong>Machine Learning Taxonomy</strong> | Complete Reference Guide for ML Engineering Interview | 100+ Algorithms & Techniques
+        </div>
+    </div>
+</body>
+</html>
