@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete ML Taxonomy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 30px 20px;
+            overflow-x: auto;
+        }
+        
+        .container {
+            min-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1a202c;
+            margin-bottom: 10px;
+            font-size: 3em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: #f7fafc;
+            border-radius: 25px;
+            font-size: 0.95em;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        /* Main tree structure */
+        .tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .root-node {
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 1.8em;
+            font-weight: 700;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            text-align: center;
+        }
+        
+        .main-branches {
+            display: flex;
+            justify-content: space-around;
+            gap: 40px;
+            width: 100%;
+            margin-top: 30px;
+        }
+        
+        .branch-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .main-category {
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            font-size: 1.3em;
+            font-weight: 700;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.3);
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        .sub-branches {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+        }
+        
+        .sub-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #e0f7ff, #f0f9ff);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .sub-category {
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.3);
+            text-align: center;
+        }
+        
+        .deep-learning-node {
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #fa709a, #fee140);
+            color: #1a202c;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(250, 112, 154, 0.3);
+            text-align: center;
+        }
+        
+        .advanced-node {
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #30cfd0, #330867);
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(48, 207, 208, 0.3);
+            text-align: center;
+        }
+        
+        .algorithms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            width: 100%;
+            padding: 15px;
+        }
+        
+        .algorithm {
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: #1a202c;
+            font-size: 0.9em;
+            font-weight: 600;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(67, 233, 123, 0.25);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .algorithm:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(67, 233, 123, 0.4);
+        }
+        
+        /* Connectors */
+        .connector-v {
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(to bottom, #cbd5e0, #e2e8f0);
+            margin: 0 auto;
+        }
+        
+        .connector-h {
+            height: 3px;
+            width: 100%;
+            background: linear-gradient(to right, #cbd5e0, #e2e8f0);
+        }
+        
+        /* Special sections */
+        .special-section {
+            margin-top: 50px;
+            padding: 30px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(252, 182, 159, 0.3);
+        }
+        
+        .special-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #742a2a;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-title {
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .info-text {
+            color: #4a5568;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Complete Machine Learning Taxonomy</h1>
+        <p class="subtitle">Comprehensive Overview of ML Algorithms & Techniques</p>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #667eea, #764ba2);"></div>
+                <span>Root Concept</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #f093fb, #f5576c);"></div>
+                <span>Main Category</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #4facfe, #00f2fe);"></div>
+                <span>Sub-category</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #43e97b, #38f9d7);"></div>
+                <span>Algorithms</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #fa709a, #fee140);"></div>
+                <span>Deep Learning</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #30cfd0, #330867);"></div>
+                <span>Advanced</span>
+            </div>
+        </div>
+        
+        <div class="tree">
+            <!-- ROOT -->
+            <div class="root-node">MACHINE LEARNING</div>
+            <div class="connector-v"></div>
+            
+            <!-- MAIN BRANCHES -->
+            <div class="main-branches">
+                
+                <!-- SUPERVISED LEARNING -->
+                <div class="branch-container">
+                    <div class="main-category">SUPERVISED LEARNING</div>
+                    <div class="connector-v"></div>
+                    
+                    <div class="sub-branches">
+                        <!-- Regression -->
+                        <div class="sub-branch">
+                            <div class="sub-category">REGRESSION</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">Linear Regression</div>
+                                <div class="algorithm">Ridge Regression</div>
+                                <div class="algorithm">Lasso Regression</div>
+                                <div class="algorithm">ElasticNet</div>
+                                <div class="algorithm">SVR</div>
+                                <div class="algorithm">Decision Tree Regressor</div>
+                                <div class="algorithm">Random Forest Regressor</div>
+                                <div class="algorithm">XGBoost</div>
+                                <div class="algorithm">LightGBM</div>
+                                <div class="algorithm">CatBoost</div>
+                                <div class="algorithm">Gradient Boosting</div>
+                                <div class="algorithm">Neural Network Regressor</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Classification -->
+                        <div class="sub-branch">
+                            <div class="sub-category">CLASSIFICATION</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">Logistic Regression</div>
+                                <div class="algorithm">Decision Trees</div>
+                                <div class="algorithm">Random Forest</div>
+                                <div class="algorithm">SVM</div>
+                                <div class="algorithm">KNN</div>
+                                <div class="algorithm">Naive Bayes</div>
+                                <div class="algorithm">AdaBoost</div>
+                                <div class="algorithm">XGBoost</div>
+                                <div class="algorithm">LightGBM</div>
+                                <div class="algorithm">CatBoost</div>
+                                <div class="algorithm">Neural Networks</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- UNSUPERVISED LEARNING -->
+                <div class="branch-container">
+                    <div class="main-category">UNSUPERVISED LEARNING</div>
+                    <div class="connector-v"></div>
+                    
+                    <div class="sub-branches">
+                        <!-- Clustering -->
+                        <div class="sub-branch">
+                            <div class="sub-category">CLUSTERING</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">K-Means</div>
+                                <div class="algorithm">Hierarchical Clustering</div>
+                                <div class="algorithm">DBSCAN</div>
+                                <div class="algorithm">OPTICS</div>
+                                <div class="algorithm">Agglomerative</div>
+                                <div class="algorithm">Gaussian Mixture</div>
+                                <div class="algorithm">Mean Shift</div>
+                                <div class="algorithm">Spectral Clustering</div>
+                                <div class="algorithm">BIRCH</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Dimensionality Reduction -->
+                        <div class="sub-branch">
+                            <div class="sub-category">DIMENSIONALITY REDUCTION</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">PCA</div>
+                                <div class="algorithm">t-SNE</div>
+                                <div class="algorithm">UMAP</div>
+                                <div class="algorithm">LDA</div>
+                                <div class="algorithm">Autoencoders</div>
+                                <div class="algorithm">Factor Analysis</div>
+                                <div class="algorithm">ICA</div>
+                                <div class="algorithm">Kernel PCA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- DEEP LEARNING -->
+                <div class="branch-container">
+                    <div class="main-category">DEEP LEARNING</div>
+                    <div class="connector-v"></div>
+                    
+                    <div class="sub-branches">
+                        <!-- Feedforward -->
+                        <div class="sub-branch">
+                            <div class="deep-learning-node">FEEDFORWARD (MLP)</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">Fully Connected Nets</div>
+                                <div class="algorithm">Perceptron</div>
+                                <div class="algorithm">ReLU Activation</div>
+                                <div class="algorithm">Dropout</div>
+                                <div class="algorithm">Batch Normalization</div>
+                                <div class="algorithm">Layer Normalization</div>
+                            </div>
+                        </div>
+                        
+                        <!-- CNN -->
+                        <div class="sub-branch">
+                            <div class="deep-learning-node">CONVOLUTIONAL (CNN)</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">ResNet</div>
+                                <div class="algorithm">VGG</div>
+                                <div class="algorithm">Inception</div>
+                                <div class="algorithm">EfficientNet</div>
+                                <div class="algorithm">MobileNet</div>
+                                <div class="algorithm">YOLO</div>
+                                <div class="algorithm">Faster R-CNN</div>
+                                <div class="algorithm">U-Net</div>
+                                <div class="algorithm">Vision Transformers (ViT)</div>
+                            </div>
+                        </div>
+                        
+                        <!-- RNN -->
+                        <div class="sub-branch">
+                            <div class="deep-learning-node">RECURRENT (RNN)</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">LSTM</div>
+                                <div class="algorithm">GRU</div>
+                                <div class="algorithm">Bi-LSTM</div>
+                                <div class="algorithm">Seq2Seq</div>
+                                <div class="algorithm">Attention Mechanism</div>
+                                <div class="algorithm">Encoder-Decoder</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Transformers -->
+                        <div class="sub-branch">
+                            <div class="deep-learning-node">TRANSFORMERS</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">BERT</div>
+                                <div class="algorithm">RoBERTa</div>
+                                <div class="algorithm">DistilBERT</div>
+                                <div class="algorithm">GPT-2</div>
+                                <div class="algorithm">GPT-3</div>
+                                <div class="algorithm">GPT-4</div>
+                                <div class="algorithm">Llama 2/3</div>
+                                <div class="algorithm">T5</div>
+                                <div class="algorithm">BART</div>
+                                <div class="algorithm">mT5</div>
+                                <div class="algorithm">FLAN-T5</div>
+                                <div class="algorithm">Claude</div>
+                                <div class="algorithm">Gemini</div>
+                                <div class="algorithm">Mistral</div>
+                                <div class="algorithm">Mixtral</div>
+                                <div class="algorithm">Phi-3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECOND ROW -->
+            <div class="connector-v" style="margin-top: 30px;"></div>
+            <div class="main-branches" style="margin-top: 30px;">
+                
+                <!-- REINFORCEMENT LEARNING -->
+                <div class="branch-container">
+                    <div class="main-category">REINFORCEMENT LEARNING</div>
+                    <div class="connector-v"></div>
+                    
+                    <div class="sub-branches">
+                        <div class="sub-branch">
+                            <div class="advanced-node">RL ALGORITHMS</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">Q-Learning</div>
+                                <div class="algorithm">SARSA</div>
+                                <div class="algorithm">DQN</div>
+                                <div class="algorithm">Double DQN</div>
+                                <div class="algorithm">Policy Gradient</div>
+                                <div class="algorithm">A2C</div>
+                                <div class="algorithm">PPO</div>
+                                <div class="algorithm">Actor-Critic</div>
+                                <div class="algorithm">DDPG</div>
+                                <div class="algorithm">TD3</div>
+                                <div class="algorithm">AlphaGo</div>
+                                <div class="algorithm">AlphaZero</div>
+                                <div class="algorithm">RLHF</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- GENERATIVE AI -->
+                <div class="branch-container">
+                    <div class="main-category">GENERATIVE AI</div>
+                    <div class="connector-v"></div>
+                    
+                    <div class="sub-branches">
+                        <!-- Generative Models -->
+                        <div class="sub-branch">
+                            <div class="advanced-node">GENERATIVE MODELS</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">GANs</div>
+                                <div class="algorithm">DCGAN</div>
+                                <div class="algorithm">StyleGAN</div>
+                                <div class="algorithm">BigGAN</div>
+                                <div class="algorithm">VAE</div>
+                                <div class="algorithm">Normalizing Flows</div>
+                                <div class="algorithm">PixelRNN</div>
+                                <div class="algorithm">WaveNet</div>
+                                <div class="algorithm">Diffusion Models</div>
+                                <div class="algorithm">Stable Diffusion</div>
+                                <div class="algorithm">DALL-E 2</div>
+                                <div class="algorithm">DALL-E 3</div>
+                                <div class="algorithm">Midjourney</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hybrid/Specialized -->
+                        <div class="sub-branch">
+                            <div class="advanced-node">HYBRID & SPECIALIZED</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">RAG</div>
+                                <div class="algorithm">Mixture of Experts (MoE)</div>
+                                <div class="algorithm">GNN</div>
+                                <div class="algorithm">GAT</div>
+                                <div class="algorithm">GraphSAGE</div>
+                                <div class="algorithm">NeRF</div>
+                                <div class="algorithm">Gaussian Splatting</div>
+                                <div class="algorithm">Energy-Based Models</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SELF-SUPERVISED & SEMI-SUPERVISED -->
+                <div class="branch-container">
+                    <div class="main-category">SELF/SEMI-SUPERVISED</div>
+                    <div class="connector-v"></div>
+                    
+                    <div class="sub-branches">
+                        <div class="sub-branch">
+                            <div class="advanced-node">LEARNING PARADIGMS</div>
+                            <div class="algorithms-grid">
+                                <div class="algorithm">Contrastive Learning</div>
+                                <div class="algorithm">SimCLR</div>
+                                <div class="algorithm">BYOL</div>
+                                <div class="algorithm">SimSiam</div>
+                                <div class="algorithm">DINO</div>
+                                <div class="algorithm">Masked Language Modeling</div>
+                                <div class="algorithm">Momentum Contrast</div>
+                                <div class="algorithm">SwAV</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- INFO BOXES -->
+            <div class="special-section">
+                <div class="special-title">📚 Key Concepts & Interview Tips</div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px;">
+                    <div class="info-box">
+                        <div class="info-title">🎯 For Your Interview</div>
+                        <div class="info-text">
+                            <strong>Focus Areas:</strong> PySpark, PyTorch, GenAI (especially Transformers & RAG), production ML deployment, and cloud platforms (AWS/Azure/GCP).
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <div class="info-title">⚡ PySpark Key Concepts</div>
+                        <div class="info-text">
+                            Transformations vs Actions, RDD/DataFrame/Dataset APIs, Partitioning, Broadcasting, Caching, Lazy Evaluation, Optimization techniques.
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <div class="info-title">🤖 GenAI Essentials</div>
+                        <div class="info-text">
+                            LLMs (GPT, BERT, Llama), Fine-tuning, Prompt Engineering, RAG (Retrieval Augmented Generation), Vector Databases, Embeddings.
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <div class="info-title">🔧 ML Production</div>
+                        <div class="info-text">
+                            Model deployment, versioning, monitoring, A/B testing, CI/CD pipelines, containerization (Docker/Kubernetes), model drift detection.
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <div class="info-title">☁️ Cloud ML</div>
+                        <div class="info-text">
+                            AWS SageMaker, Azure ML, GCP Vertex AI, distributed training, cost optimization, MLOps best practices.
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <div class="info-title">📊 SAS Migration</div>
+                        <div class="info-text">
+                            SAS procedures → Python/PySpark equivalents, data validation, performance optimization, legacy code migration strategies.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
